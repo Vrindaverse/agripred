@@ -38,9 +38,32 @@ st.sidebar.info(
     "Select a tool above to get started."
 )
 
-# Shared Header
-st.markdown("<h1 class='main-title'>AgriPred</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>Precision Agriculture Powered by AI</p>", unsafe_allow_html=True)
+# Enhanced Header with Two GIFs
+col_left_gif, col_title, col_right_gif = st.columns([1, 2, 1])
+
+with col_left_gif:
+    st.markdown('''
+    <div class="gif-container">
+        <img src="https://media1.tenor.com/m/snQx23i29ikAAAAd/woodstuck-so-busy.gif" 
+             alt="Tractor GIF" 
+             class="header-gif"
+             style="width: 100%; max-width: 123.5px; height: auto;">
+    </div>
+    ''', unsafe_allow_html=True)
+
+with col_title:
+    st.markdown("<h1 class='main-title'>AgriPred</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='sub-title'>Precision Agriculture Powered by AI</p>", unsafe_allow_html=True)
+
+with col_right_gif:
+    st.markdown('''
+    <div class="gif-container-right">
+        <img src="https://media1.tenor.com/m/Bd6byz_km0MAAAAd/cowboy-pixelart.gif" 
+             alt="Farmer GIF" 
+             class="header-gif"
+             style="width: 100%; max-width: 124px; height: auto;">
+    </div>
+    ''', unsafe_allow_html=True)
 
 if page == "🌾 Crop Recommendation":
     st.markdown("### 🌾 Crop Finder")
@@ -82,38 +105,47 @@ elif page == "🍃 Disease Detection":
     st.markdown("### 🍃 Health Scanner")
     st.write("Upload a leaf image to instantly diagnose plant health and diseases.")
     
-    col1, col2 = st.columns([1, 1])
+    # Initialize image variable
+    image = None
     
-    with col1:
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        uploaded_file = st.file_uploader("Drop your leaf image here", type=["jpg", "png", "jpeg"])
-        if uploaded_file:
-            image = Image.open(uploaded_file)
-            st.image(image, caption="Analyzable Specimen", use_container_width=True)
+    st.markdown('<div class="detection-layout">', unsafe_allow_html=True)
+    
+    # Left column - Image upload
+    st.markdown('<div style="flex: 1;">', unsafe_allow_html=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    uploaded_file = st.file_uploader("Drop your leaf image here", type=["jpg", "png", "jpeg"])
+    if uploaded_file:
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Analyzable Specimen", use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Right column - GIF and results
+    st.markdown('<div style="flex: 1;">', unsafe_allow_html=True)
+    if uploaded_file:
+        st.markdown('<div class="card" style="height: 100%;">', unsafe_allow_html=True)
+        st.markdown("### Diagnosis Engine")
+        if st.button("Start AI Scan"):
+            with st.spinner("Analyzing biological patterns..."):
+                import time
+                time.sleep(2) 
+                result = detect_disease(image)
+                st.markdown(f'''
+                <div style="padding: 20px; border-radius: 12px; border: 2px dashed #4caf50; background: rgba(255,255,255,0.5);">
+                    <h4 style="margin: 0; color: #1b5e20;">Scan Result:</h4>
+                    <p style="font-size: 1.2rem; margin-top: 10px;">{result}</p>
+                </div>
+                ''', unsafe_allow_html=True)
+                if "Healthy" in result:
+                    st.success("Analysis complete: Plant is in optimal health.")
+                else:
+                    st.warning("Analysis complete: Pathogens detected. Consult treatment guide.")
         st.markdown('</div>', unsafe_allow_html=True)
-            
-    with col2:
-        if uploaded_file:
-            st.markdown('<div class="card" style="height: 100%;">', unsafe_allow_html=True)
-            st.markdown("### Diagnosis Engine")
-            if st.button("Start AI Scan"):
-                with st.spinner("Analyzing biological patterns..."):
-                    import time
-                    time.sleep(2) 
-                    result = detect_disease(image)
-                    st.markdown(f'''
-                    <div style="padding: 20px; border-radius: 12px; border: 2px dashed #4caf50; background: rgba(255,255,255,0.5);">
-                        <h4 style="margin: 0; color: #1b5e20;">Scan Result:</h4>
-                        <p style="font-size: 1.2rem; margin-top: 10px;">{result}</p>
-                    </div>
-                    ''', unsafe_allow_html=True)
-                    if "Healthy" in result:
-                        st.success("Analysis complete: Plant is in optimal health.")
-                    else:
-                        st.warning("Analysis complete: Pathogens detected. Consult treatment guide.")
-            st.markdown('</div>', unsafe_allow_html=True)
-        else:
-            st.info("Awaiting input: Please upload a leaf image to begin the scanning sequence.")
+    else:
+        st.info("Awaiting input: Please upload a leaf image to begin the scanning sequence.")
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown("---")
 st.caption("© 2026 AgriPred | Built with passion for sustainable farming.")
