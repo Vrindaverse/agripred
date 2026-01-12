@@ -1,0 +1,183 @@
+:root {
+    --primary-color: #2e7d32;
+    --secondary-color: #4caf50;
+    --background-color: #f1f8e9;
+    --text-color: #1b5e20;
+    --accent-color: #81c784;
+    --card-bg: rgba(255, 255, 255, 0.7);
+}
+
+.stApp {
+    background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Floating Leaves Animation Background */
+.leaf {
+    position: fixed;
+    top: -50px;
+    width: 30px;
+    height: 30px;
+    background: rgba(76, 175, 80, 0.2);
+    border-radius: 50% 0 50% 0;
+    animation: fall linear infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    90% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Title Animation */
+.main-title {
+    font-size: 4rem !important;
+    text-align: center;
+    background: linear-gradient(to right, #1b5e20, #4caf50, #81c784);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem !important;
+    animation: slideUp 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.sub-title {
+    font-size: 1.4rem !important;
+    text-align: center;
+    color: #455a64 !important;
+    margin-bottom: 3rem !important;
+    animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Enhanced Cards */
+.card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(46, 125, 50, 0.15);
+    border-color: var(--secondary-color);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(76, 175, 80, 0.1) 0%, transparent 70%);
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.feature-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .feature-icon {
+    transform: scale(1.2) rotate(10deg);
+}
+
+/* Sidebar Customization */
+[data-testid="stSidebar"] {
+    background: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(20px) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Glassmorphism Inputs */
+.stNumberInput input,
+.stTextInput input,
+.stFileUploader section {
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(5px) !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.stNumberInput input:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2) !important;
+}
+
+/* Success Message Animation */
+.stSuccess {
+    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
